@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b1024">
+<meta name="description" content="Aj — a free typing practice and speed test website. Learn, practice, and track your progress.">
+<title>Aj — Typing Practice</title>
+<style>
+:root{
+  color-scheme:dark; --bg:#080d1e; --panel:#111831; --panel2:#151f3e; --line:#29345b;
+  --text:#f4f6ff; --muted:#a8b2d6; --purple:#9b7bff; --cyan:#66e3ff; --green:#62e6ad;
+  --red:#ff7d9b; --shadow:0 18px 50px #0005;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 12% 0%,#25205a 0,transparent 36%),radial-gradient(ellipse at 100% 25%,#102d4b 0,transparent 32%),var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;min-height:100vh}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--cyan);outline-offset:3px}
+.wrap{width:min(1120px,calc(100% - 32px));margin:auto}
+header{position:sticky;top:0;z-index:5;background:#080d1ee8;backdrop-filter:blur(16px);border-bottom:1px solid #ffffff12}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:850;font-size:1.25rem;letter-spacing:-.03em}
+.logo{display:grid;place-items:center;width:39px;height:39px;border-radius:13px;background:linear-gradient(135deg,var(--purple),#5c5df6);box-shadow:0 8px 25px #7862ff55;font-weight:900}
+.navlinks{display:flex;gap:7px;flex-wrap:wrap}
+.navlinks button,.secondary{border:1px solid transparent;background:transparent;color:var(--muted);padding:9px 13px;border-radius:11px}
+.navlinks button:hover,.navlinks button.active{background:#ffffff0c;color:var(--text);border-color:#ffffff14}
+.primary{background:linear-gradient(135deg,#9b7bff,#6a6bff);border:0;color:white;font-weight:750;padding:12px 18px;border-radius:12px;box-shadow:0 9px 25px #7965ff30}
+.primary:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.secondary{border-color:var(--line);color:var(--text);background:#ffffff06}
+main{padding:38px 0 70px}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:32px;padding:30px 0 42px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;color:#c9bdff;background:#a18aff16;border:1px solid #a18aff3a;padding:7px 11px;border-radius:999px;font-size:.84rem;font-weight:700}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green)}
+h1{font-size:clamp(2.5rem,6vw,4.7rem);line-height:1.03;letter-spacing:-.065em;margin:18px 0}
+.gradient{background:linear-gradient(95deg,#c1aaff,var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{font-size:1.1rem;color:var(--muted);max-width:570px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin:24px 0}
+.hero-card{background:linear-gradient(145deg,#1b2448ee,#10162bee);border:1px solid #ffffff17;border-radius:25px;padding:24px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.hero-card:before{content:"";position:absolute;width:200px;height:200px;background:#9475ff20;filter:blur(10px);border-radius:50%;right:-70px;top:-90px}
+.mini-top{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:.9rem;position:relative}
+.live{color:var(--green);font-size:.8rem}
+.sample{font:600 1.2rem/2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.015em;margin:22px 0;color:#e9ecff;overflow-wrap:anywhere}
+.sample .done{color:var(--green)}.sample .current{background:#8f7bff;color:white;border-radius:3px}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{padding:13px;background:#080d1e88;border:1px solid #ffffff0d;border-radius:13px}
+.stat strong{display:block;font-size:1.3rem}.stat span{font-size:.78rem;color:var(--muted)}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:22px 0 17px}
+h2{font-size:1.65rem;letter-spacing:-.035em;margin:0}
+.sub{color:var(--muted);margin:5px 0 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card{background:linear-gradient(150deg,#141d3aee,#10162b);border:1px solid #ffffff13;border-radius:19px;padding:20px;box-shadow:0 8px 30px #0002}
+.lesson-card{display:flex;flex-direction:column;min-height:220px}
+.card-icon{width:43px;height:43px;display:grid;place-items:center;border-radius:14px;background:#9b7bff1d;border:1px solid #a18aff32;font-size:1.3rem;margin-bottom:13px}
+.card h3{margin:0 0 7px;font-size:1.08rem}.card p{color:var(--muted);margin:0 0 16px;font-size:.93rem}
+.card-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto}
+.pill{font-size:.76rem;border-radius:999px;padding:5px 9px;background:#ffffff0b;color:#cbd2f1;border:1px solid #ffffff10}
+.practice-layout{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:16px;align-items:start}
+.practice-main{min-width:0}
+.toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:13px}
+.tabs{display:flex;gap:6px;padding:5px;background:#080d1e8c;border:1px solid #ffffff10;border-radius:13px}
+.tabs button{border:0;background:transparent;color:var(--muted);padding:8px 12px;border-radius:9px}
+.tabs button.active{background:#28214e;color:white}
+select{background:#0b1229;border:1px solid var(--line);color:var(--text);padding:9px 11px;border-radius:10px}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:13px}
+.metric{padding:13px;background:#080d1e80;border:1px solid #ffffff10;border-radius:13px}
+.metric span{display:block;color:var(--muted);font-size:.78rem}.metric strong{font-size:1.35rem;letter-spacing:-.03em}
+.prompt{font:500 1.22rem/2 ui-monospace,SFMono-Regular,Consolas,monospace;letter-spacing:.015em;overflow-wrap:anywhere;background:#090f24;border:1px solid #29345b;border-radius:14px;padding:20px;min-height:140px;margin:0 0 13px;white-space:pre-wrap}
+.prompt .correct{color:var(--green)}.prompt .wrong{color:var(--red);background:#ff7d9b1b;border-radius:3px}.prompt .cursor{border-left:2px solid var(--cyan);margin-left:-2px}
+#typingInput{width:100%;min-height:112px;resize:vertical;background:#0a1025;color:var(--text);border:1px solid var(--line);border-radius:13px;padding:15px;line-height:1.7}
+#typingInput:disabled{opacity:.6;cursor:not-allowed}
+.hint{font-size:.84rem;color:var(--muted);margin:10px 0 0}
+.control-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:13px}
+.sidebar{display:grid;gap:13px}
+.side-title{font-weight:750;margin:0 0 12px}
+.progress-track{height:8px;background:#ffffff12;border-radius:99px;overflow:hidden;margin:9px 0}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--purple),var(--cyan));border-radius:99px;transition:width .25s}
+.challenge{background:linear-gradient(145deg,#211a48,#111831);border-color:#8e78ff35}
+.challenge-big{font-size:1.9rem;font-weight:850;letter-spacing:-.04em;margin:3px 0}
+.challenge small{color:var(--muted)}
+.challenge-status{color:var(--green);font-size:.85rem;font-weight:700}
+.result{display:none;margin-top:14px;border:1px solid #62e6ad55;background:#62e6ad0d;border-radius:14px;padding:16px}
+.result.show{display:block}
+.result h3{margin:0 0 5px}
+.empty{color:var(--muted);padding:20px;text-align:center;border:1px dashed #ffffff22;border-radius:13px}
+.history-list{display:grid;gap:9px}
+.history-item{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px;background:#080d1e80;border:1px solid #ffffff10;border-radius:12px}
+.history-item strong{display:block}.history-item small{color:var(--muted)}
+footer{border-top:1px solid #ffffff12;padding:24px 0;color:var(--muted);font-size:.86rem}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:#1c294a;border:1px solid #465680;border-radius:12px;padding:11px 16px;box-shadow:var(--shadow);transition:.2s;z-index:20}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.hidden{display:none!important}
+@media(max-width:850px){.hero{grid-template-columns:1fr}.hero-card{max-width:650px}.practice-layout{grid-template-columns:1fr}.sidebar{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.wrap{width:min(100% - 22px,1120px)}.nav{height:auto;min-height:65px;align-items:flex-start;padding:12px 0;flex-direction:column}.navlinks{width:100%;overflow:auto;flex-wrap:nowrap}.navlinks button{white-space:nowrap}.hero{padding-top:24px}.hero-stats{gap:6px}.stat{padding:10px}.grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.sidebar{grid-template-columns:1fr}.prompt{font-size:1.05rem;padding:14px}.section-head{align-items:flex-start;flex-direction:column}main{padding-top:20px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap nav">
+    <div class="brand"><div class="logo">Aj</div><span>Aj <span class="gradient">Typing Lab</span></span></div>
+    <nav class="navlinks" aria-label="Main navigation">
+      <button class="active" data-scroll="home">Home</button>
+      <button data-scroll="lessons">Lessons</button>
+      <button data-scroll="practice">Typing test</button>
+      <button data-scroll="progress">My progress</button>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+  <section class="hero" id="home">
+    <div>
+      <span class="eyebrow"><span class="dot"></span> YOUR FREE TYPING PRACTICE SPACE</span>
+      <h1>Make every<br>keystroke <span class="gradient">count.</span></h1>
+      <p class="lead">Build better typing habits one lesson at a time. Practice at your own pace, test your speed, and watch your progress grow.</p>
+      <div class="actions">
+        <button class="primary" data-scroll="practice">Start typing <span aria-hidden="true">→</span></button>
+        <button class="secondary" data-scroll="lessons">Explore lessons</button>
+      </div>
+      <div class="pill" style="display:inline-flex">✦ Free forever · No account required</div>
+    </div>
+    <div class="hero-card" aria-label="Typing preview">
+      <div class="mini-top"><span>QUICK PREVIEW</span><span class="live">● Ready to practice</span></div>
+      <div class="sample" id="heroSample">Practice makes progress, one keystroke at a time.</div>
+      <div class="hero-stats">
+        <div class="stat"><strong>⌨</strong><span>Build your rhythm</span></div>
+        <div class="stat"><strong>WPM</strong><span>Measure your speed</span></div>
+        <div class="stat"><strong>✓</strong><span>Improve accuracy</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="lessons">
+    <div class="section-head">
+      <div><h2>Choose a lesson</h2><p class="sub">Small steps lead to stronger typing skills.</p></div>
+      <span class="pill" id="lessonCount">6 guided lessons</span>
+    </div>
+    <div class="grid" id="lessonGrid"></div>
+  </section>
+
+  <section id="practice" style="padding-top:36px">
+    <div class="section-head">
+      <div><h2>Typing practice</h2><p class="sub">Type the text below. Your stats update as you go.</p></div>
+      <span class="pill">⌁ Live results</span>
+    </div>
+    <div class="practice-layout">
+      <div class="practice-main card">
+        <div class="toolbar">
+          <div class="tabs" role="group" aria-label="Practice mode">
+            <button class="active" data-mode="lesson">Lesson</button>
+            <button data-mode="test">Speed test</button>
+            <button data-mode="challenge">Daily challenge</button>
+          </div>
+          <select id="durationSelect" aria-label="Test duration">
+            <option value="30">30-second test</option><option value="60">60-second test</option><option value="120">2-minute test</option>
+          </select>
+        </div>
+        <div class="metrics">
+          <div class="metric"><span>Speed</span><strong id="wpm">0 <small style="font-size:.72rem;color:var(--muted)">WPM</small></strong></div>
+          <div class="metric"><span>Accuracy</span><strong id="accuracy">100%</strong></div>
+          <div class="metric"><span>Time left</span><strong id="timeLeft">30s</strong></div>
+          <div class="metric"><span>Characters</span><strong id="charCount">0</strong></div>
+        </div>
+        <div class="prompt" id="promptText" aria-label="Text to type"></div>
+        <textarea id="typingInput" placeholder="Click here and start typing the text above…" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="Type the displayed text here"></textarea>
+        <p class="hint" id="practiceHint">Your timer starts with your first keystroke. Match the text above as closely as you can.</p>
+        <div class="control-row">
+          <button class="primary" id="startBtn">Start / restart</button>
+          <button class="secondary" id="nextBtn">Next text ↻</button>
+          <span class="pill" id="modePill">Lesson mode</span>
+        </div>
+        <div class="result" id="resultBox" role="status" aria-live="polite">
+          <h3 id="resultTitle">Nice work!</h3><p id="resultMessage" style="margin:0;color:var(--muted)"></p>
+        </div>
+      </div>
+      <aside class="sidebar">
+        <div class="card challenge">
+          <p class="side-title">🌟 Daily challenge</p>
+          <div class="pill" id="challengeDate">TODAY'S GOAL</div>
+          <div class="challenge-big" id="challengeGoal">30 seconds</div>
+          <p class="sub" id="challengeDescription">Complete one typing test today.</p>
+          <div class="progress-track"><div class="progress-fill" id="challengeFill"></div></div>
+          <div class="challenge-status" id="challengeStatus">Not completed yet</div>
+          <button class="primary" id="challengeBtn" style="width:100%;margin-top:14px">Try today's challenge</button>
+        </div>
+        <div class="card">
+          <p class="side-title">📈 Your best so far</p>
+          <div class="metrics" style="grid-template-columns:1fr 1fr;margin:0">
+            <div class="metric"><span>Best speed</span><strong id="bestWpm">—</strong></div>
+            <div class="metric"><span>Tests done</span><strong id="testsDone">0</strong></div>
+          </div>
+          <p class="hint">Your results are saved in this browser on this device.</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section id="progress" style="padding-top:36px">
+    <div class="section-head">
+      <div><h2>Your progress</h2><p class="sub">A little practice adds up. Keep showing up.</p></div>
+      <button class="secondary" id="clearHistoryBtn">Clear saved progress</button>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(3,1fr);margin-bottom:15px">
+      <div class="card"><span class="sub">Total practice time</span><div class="challenge-big" id="totalTime">0 min</div></div>
+      <div class="card"><span class="sub">Average accuracy</span><div class="challenge-big" id="avgAccuracy">—</div></div>
+      <div class="card"><span class="sub">Lessons completed</span><div class="challenge-big" id="lessonsDone">0 / 6</div></div>
+    </div>
+    <div class="card">
+      <p class="side-title">Recent sessions</p>
+      <div class="history-list" id="historyList"><div class="empty">Your completed tests will appear here.</div></div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap"><span>© <span id="year"></span> Aj Typing Lab</span><span>Made for practice. Your progress stays in this browser.</span></div></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(() => {
+  "use strict";
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => [...document.querySelectorAll(s)];
+  const STORAGE_KEY = "ajTypingLab_v1";
+  const lessonData = [
+    {id:"home-row",icon:"⌨️",title:"Home row basics",level:"Beginner",desc:"Get comfortable with the middle row of your keyboard.",text:"asdf jkl; asdf jkl; fjfj dkdk all sad; ask a lad."},
+    {id:"top-row",icon:"🔤",title:"Top row letters",level:"Beginner",desc:"Reach for the top row while keeping your hands relaxed.",text:"type your first words with quiet and careful fingers."},
+    {id:"bottom-row",icon:"🌱",title:"Bottom row practice",level:"Beginner",desc:"Practice the lower row and build finger confidence.",text:"mix, move, zoom, and bring your best rhythm to each line."},
+    {id:"common-words",icon:"💬",title:"Everyday words",level:"Easy",desc:"Build a steady rhythm with common words.",text:"the quick brown fox jumps over the lazy dog and then runs home."},
+    {id:"punctuation",icon:"✍️",title:"Punctuation practice",level:"Intermediate",desc:"Practice commas, apostrophes, and sentence flow.",text:"Let's practice: slow, steady typing builds skill; accuracy comes first."},
+    {id:"full-sentence",icon:"🚀",title:"Full sentences",level:"Intermediate",desc:"Put it all together with a longer passage.",text:"Good typing is not about rushing. Keep your hands relaxed, look at the screen, and aim for consistent, accurate keystrokes."}
+  ];
+  const passages = [
+    "Practice makes progress, one keystroke at a time.",
+    "A calm pace and accurate fingers build great typing habits.",
+    "Small daily steps can lead to a skill you use every day.",
+    "Focus on accuracy first, then let your speed grow naturally.",
+    "The best way to improve is to practice a little and practice often.",
+    "Stay relaxed, keep your eyes on the screen, and find your rhythm."
+  ];
+  const challengeText = "Focus on accuracy first, then let your speed grow naturally.";
+  const todayKey = new Date().toLocaleDateString("en-CA");
+  const emptyState = () => ({history:[],completedLessons:[],challengeDate:"",challengeDone:false});
+  let saved = loadState();
+  let mode = "lesson", activeLesson = lessonData[0], targetText = activeLesson.text;
+  let startedAt = null, timerId = null, elapsedBeforeTick = 0, finished = false, currentDuration = 30;
+  let toastTimeout = null;
+
+  function loadState(){
+    try {
+      const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+      if (!parsed || typeof parsed !== "object") return emptyState();
+      return {...emptyState(),...parsed,history:Array.isArray(parsed.history)?parsed.history:[],completedLessons:Array.isArray(parsed.completedLessons)?parsed.completedLessons:[]};
+    } catch(e){ return emptyState(); }
+  }
+  function saveState(){
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(saved)); }
+    catch(e){ showToast("Browser storage is unavailable. Your progress may not persist."); }
+  }
+  function showToast(message){
+    const toast=$("#toast"); toast.textContent=message; toast.classList.add("show");
+    clearTimeout(toastTimeout); toastTimeout=setTimeout(()=>toast.classList.remove("show"),2600);
+  }
+  function escapeHtml(s){
+    return s.replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");
+  }
+  function renderLessons(){
+    $("#lessonGrid").innerHTML = lessonData.map((l,i)=>`
+      <article class="card lesson-card">
+        <div class="card-icon">${l.icon}</div><h3>${escapeHtml(l.title)}</h3>
+        <p>${escapeHtml(l.desc)}</p>
+        <div class="card-bottom"><span class="pill">${l.level}</span>
+        <button class="secondary lesson-start" data-lesson="${l.id}">${saved.completedLessons.includes(l.id)?"Practice again":"Start lesson"} →</button></div>
+      </article>`).join("");
+  }
+  function updatePrompt(){
+    const typed=$("#typingInput").value;
+    let out="";
+    for(let i=0;i<targetText.length;i++){
+      const ch=targetText[i];
+      if(i<typed.length){
+        out+=`<span class="${typed[i]===ch?"correct":"wrong"}">${escapeHtml(ch)}</span>`;
+      } else if(i===typed.length){
+        out+=`<span class="cursor">${escapeHtml(ch)}</span>`;
+      } else out+=escapeHtml(ch);
+    }
+    if(typed.length>=targetText.length) out += `<span class="cursor"> </span>`;
+    $("#promptText").innerHTML=out;
+  }
+  function getStats(){
+    const typed=$("#typingInput").value;
+    let correct=0;
+    for(let i=0;i<typed.length;i++) if(i<targetText.length && typed[i]===targetText[i]) correct++;
+    const elapsed=startedAt ? Math.min(currentDuration,(Date.now()-startedAt)/1000+elapsedBeforeTick) : elapsedBeforeTick;
+    const minutes=Math.max(elapsed/60,1/60);
+    const wpm=Math.round((correct/5)/minutes);
+    const accuracy=typed.length ? Math.round(correct/typed.length*100) : 100;
+    return {typed,correct,elapsed,wpm,accuracy};
+  }
+  function updateMetrics(){
+    const s=getStats();
+    $("#wpm").innerHTML=`${s.wpm} <small style="font-size:.72rem;color:var(--muted)">WPM</small>`;
+    $("#accuracy").textContent=s.accuracy+"%";
+    $("#charCount").textContent=s.typed.length;
+    const remaining=Math.max(0,currentDuration-Math.floor(s.elapsed));
+    $("#timeLeft").textContent=mode==="lesson" ? "∞" : `${remaining}s`;
+    updatePrompt();
+  }
+  function stopTimer(){
+    if(timerId){clearInterval(timerId);timerId=null;}
+  }
+  function resetPractice(text=targetText, keepMode=true){
+    stopTimer(); startedAt=null; elapsedBeforeTick=0; finished=false;
+    targetText=text; $("#typingInput").value=""; $("#typingInput").disabled=false;
+    $("#resultBox").classList.remove("show");
+    $("#startBtn").textContent="Start / restart";
+    $("#typingInput").placeholder="Click here and start typing the text above…";
+    currentDuration=Number($("#durationSelect").value)||30;
+    updateMetrics();
+  }
+  function setMode(newMode){
+    mode=newMode;
+    $$(".tabs button").forEach(b=>b.classList.toggle("active",b.dataset.mode===mode));
+    $("#durationSelect").classList.toggle("hidden",mode==="lesson");
+    $("#modePill").textContent=mode==="lesson"?"Lesson mode":mode==="test"?"Speed test":"Daily challenge";
+    $("#practiceHint").textContent=mode==="lesson"?"Practice at your own pace. Your lesson is complete when you type the passage correctly.":mode==="test"?"The timer starts with your first keystroke. Your test ends when time runs out or you finish the passage.":"Complete today's passage before the timer ends to finish the daily challenge.";
+    resetPractice();
+  }
+  function startClock(){
+    if(startedAt || finished) return;
+    startedAt=Date.now();
+    if(mode==="lesson") return;
+    timerId=setInterval(()=>{
+      updateMetrics();
+      if(getStats().elapsed>=currentDuration) finishTest("Time is up!");
+    },200);
+    $("#startBtn").textContent="Restart test";
+  }
+  function finishTest(reason){
+    if(finished) return;
+    finished=true; stopTimer();
+    const s=getStats();
+    $("#typingInput").disabled=true;
+    $("#timeLeft").textContent=mode==="lesson"?"✓": "0s";
+    const actualSeconds=Math.max(1,Math.min(currentDuration,s.elapsed));
+    const record={
+      date:new Date().toISOString(), mode, lessonId:mode==="lesson"?activeLesson.id:null,
+      wpm:Math.round((s.correct/5)/(actualSeconds/60)), accuracy:s.accuracy,
+      correct:s.correct,typed:s.typed.length,seconds:Math.round(actualSeconds),
+      completed:mode==="lesson" ? s.typed===targetText : (s.typed.length>0),
+      challenge:mode==="challenge" && s.typed===targetText
+    };
+    if(mode==="lesson" && s.typed===targetText && !saved.completedLessons.includes(activeLesson.id)){
+      saved.completedLessons.push(activeLesson.id);
+      showToast("Lesson completed — nicely done!");
+    }
+    if(mode==="challenge" && s.typed===targetText){
+      saved.challengeDate=todayKey;saved.challengeDone=true;
+    }
+    if(mode!=="lesson" || s.typed.length>0) {
+      saved.history.unshift(record); saved.history=saved.history.slice(0,100);
+    }
+    saveState(); renderLessons(); renderProgress(); renderChallenge();
+    $("#resultTitle").textContent=mode==="lesson"?(s.typed===targetText?"Lesson complete!":"Good practice!"):(mode==="challenge" && s.typed===targetText?"Daily challenge complete!":"Test complete!");
+    $("#resultMessage").textContent=`${reason} You typed ${s.correct} correct characters at ${record.wpm} WPM with ${s.accuracy}% accuracy.`;
+    $("#resultBox").classList.add("show");
+    updateMetrics();
+  }
+  function handleInput(){
+    if(finished) return;
+    if($("#typingInput").value.length>0) startClock();
+    updateMetrics();
+    const typed=$("#typingInput").value;
+    if(mode==="lesson" && typed===targetText){ finishTest("You matched the lesson text."); return; }
+    if(mode==="challenge" && typed===targetText){ finishTest("You matched today's challenge."); return; }
+    if(mode==="test" && typed===targetText){ finishTest("You completed the passage."); return; }
+    if(mode!=="lesson" && startedAt && getStats().elapsed>=currentDuration) finishTest("Time is up!");
+  }
+  function pickNextText(){
+    const list=mode==="lesson"?lessonData.map(l=>l.text):mode==="challenge"?[challengeText]:passages;
+    let next=list[Math.floor(Math.random()*list.length)];
+    if(list.length>1 && next===targetText) next=list[(list.indexOf(next)+1)%list.length];
+    if(mode==="lesson"){
+      activeLesson=lessonData.find(l=>l.text===next)||activeLesson;
+    }
+    resetPractice(next);
+  }
+  function startLesson(id){
+    const lesson=lessonData.find(l=>l.id===id); if(!lesson)return;
+    activeLesson=lesson; setMode("lesson"); targetText=lesson.text; resetPractice(targetText);
+    $("#practiceHint").textContent=`${lesson.title}: type the passage exactly to complete this lesson.`;
+    $("#practice").scrollIntoView({behavior:"smooth",block:"start"}); $("#typingInput").focus({preventScroll:true});
+  }
+  function renderChallenge(){
+    $("#challengeDate").textContent="DAILY GOAL · "+new Date().toLocaleDateString(undefined,{month:"short",day:"numeric"});
+    const done=saved.challengeDate===todayKey && saved.challengeDone;
+    $("#challengeGoal").textContent="1 passage";
+    $("#challengeDescription").textContent="Type today's passage accurately to complete your daily challenge.";
+    $("#challengeFill").style.width=done?"100%":"0%";
+    $("#challengeStatus").textContent=done?"✓ Completed today — great job!":"Not completed yet";
+    $("#challengeBtn").textContent=done?"Practice again":"Try today's challenge";
+  }
+  function renderProgress(){
+    const h=saved.history;
+    $("#bestWpm").textContent=h.length?Math.max(...h.map(x=>Number(x.wpm)||0)):"—";
+    $("#testsDone").textContent=h.length;
+    const totalSeconds=h.reduce((n,x)=>n+(Number(x.seconds)||0),0);
+    $("#totalTime").textContent=totalSeconds<60?`${totalSeconds} sec`:`${Math.round(totalSeconds/60)} min`;
+    $("#avgAccuracy").textContent=h.length?Math.round(h.reduce((n,x)=>n+(Number(x.accuracy)||0),0)/h.length)+"%":"—";
+    $("#lessonsDone").textContent=`${saved.completedLessons.length} / ${lessonData.length}`;
+    $("#historyList").innerHTML=h.length?h.slice(0,8).map(item=>{
+      const date=new Date(item.date);
+      const label=item.mode==="lesson"?"Lesson":item.mode==="challenge"?"Daily challenge":"Speed test";
+      return `<div class="history-item"><div><strong>${label} · ${item.wpm} WPM</strong><small>${date.toLocaleDateString()} · ${date.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})} · ${item.seconds}s</small></div><span class="pill">${item.accuracy}% accuracy</span></div>`;
+    }).join(""):'<div class="empty">Your completed tests will appear here.</div>';
+  }
+
+  document.addEventListener("click",e=>{
+    const scrollBtn=e.target.closest("[data-scroll]");
+    if(scrollBtn){const el=document.getElementById(scrollBtn.dataset.scroll);if(el)el.scrollIntoView({behavior:"smooth"});}
+    const lessonBtn=e.target.closest(".lesson-start");
+    if(lessonBtn)startLesson(lessonBtn.dataset.lesson);
+    const modeBtn=e.target.closest("[data-mode]");
+    if(modeBtn){
+      setMode(modeBtn.dataset.mode);
+      if(mode==="challenge"){targetText=challengeText;resetPractice(targetText);}
+      if(mode==="test")pickNextText();
+    }
+  });
+  $("#typingInput").addEventListener("input",handleInput);
+  $("#startBtn").addEventListener("click",()=>{
+    resetPractice(targetText);
+    $("#typingInput").focus();
+    showToast(mode==="lesson"?"Ready when you are!":"Timer starts with your first keystroke.");
+  });
+  $("#nextBtn").addEventListener("click",pickNextText);
+  $("#durationSelect").addEventListener("change",()=>{currentDuration=Number($("#durationSelect").value)||30;resetPractice();});
+  $("#challengeBtn").addEventListener("click",()=>{
+    setMode("challenge");targetText=challengeText;resetPractice(targetText);
+    $("#practice").scrollIntoView({behavior:"smooth",block:"start"});$("#typingInput").focus({preventScroll:true});
+  });
+  $("#clearHistoryBtn").addEventListener("click",()=>{
+    if(!confirm("Clear all saved typing history, lesson completions, and daily challenge progress from this browser?"))return;
+    saved=emptyState();saveState();renderLessons();renderProgress();renderChallenge();showToast("Saved progress cleared.");
+  });
+  $("#year").textContent=new Date().getFullYear();
+  renderLessons();renderProgress();renderChallenge();setMode("lesson");resetPractice(activeLesson.text);
+})();
+</script>
+</body>
+</html>
